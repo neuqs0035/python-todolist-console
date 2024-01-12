@@ -1,103 +1,94 @@
-# github : neuqs534
+# github: neuqs534
 
-print("\n# # # # # # # TODO LIST (github : neuqs0035) # # # # # # #\n")
+def print_menu_header():
+    print("# # # # # # # TODO LIST (GitHub: neuqs534) # # # # # # #\n")
 
-while (True):
+def print_task_list(tasks):
+    if not tasks:
+        print("\nYour to-do list is currently empty. Let's get organized!")
+    else:
+        print("\n- - - - - - Tasks - - - - -\n")
+        for i, task in enumerate(tasks, start=1):
+            print(f"{i} > {task}", end="")
+        print()
 
-    counter = 1
-    file = open('TODO.txt','r')
+def print_options():
+    print("\nOptions:")
+    print("1) Add Task")
+    print("2) Remove Task")
+    print("3) Clear All Tasks")
+    print("4) Edit Task")
+    print("0) Exit")
 
+def print_separator():
+    print("\n" + "-" * 30 + "\n")
+
+while True:
+    file = open('TODO.txt', 'r')
     all_tasks = file.readlines()
     file.close()
 
-    if(len(all_tasks) == 0):
-        print("\nList Is Empty . . . . .")
+    print_menu_header()
+    print_task_list(all_tasks)
+    print_options()
 
-    else:
-        print("\n- - - - - - Tasks - - - - -\n")
-        for i in all_tasks:
-            print(counter," > ",i,end="")
-            counter+=1
-    
-    print("\n\n1 ) Add Task ")
-    print("2 ) Remove Task ")
-    print("3 ) Clear All Task ")
-    print("4 ) Edit Task")
-    print("0 ) Exit")
+    try:
+        choice = int(input("\nEnter your choice: "))
+    except ValueError:
+        print("\nError - Invalid Input: Please enter a valid number.")
+        continue
 
-    choice = int(input("\n_ : "))
+    print_separator()
 
-    if(choice == 1):
+    if choice == 1:
+        new_task = input("\nEnter your new task: ")
+        with open('TODO.txt', 'a') as file:
+            file.write(new_task + "\n")
+        print("\nTask added successfully! Keep it up.")
 
-        file = open('TODO.txt','a')
-        new_task = input("\nEnter Task : ")
-        file.write(new_task + "\n")
-        file.close()
-        
-        print("\nTask Added Successfully . . . . .")
-    
-    
-    elif (choice == 2):
+    elif choice == 2:
+        task_number = int(input("\nEnter the task number to remove it: "))
 
-        file = open('TODO.txt','w')
-        
-        task_number = int(input("\nEnter Task Number To Remove It : "))
-
-        if(task_number > len(all_tasks) or task_number <= 0):
-            print("\nError : Task Number Is Not Valid ,  Enter The Number Displayed Before Task . . . . .")
-
+        if 1 <= task_number <= len(all_tasks):
+            with open('TODO.txt', 'w') as file:
+                all_tasks.pop(task_number - 1)
+                file.writelines(all_tasks)
+            print("Task removed successfully. Great progress!")
         else:
+            print("\nError: Task number is not valid. Please enter the number displayed before the task.")
 
-            all_tasks.pop(task_number - 1)
-            file.writelines(all_tasks)
-
-            print("Task Removed Successfully . . . . .")
-        file.close()
-
-    elif (choice == 3):
-
+    elif choice == 3:
         print("\nClear All Tasks")
 
-        confirm = input("\nDo You Wanna Clear All Tasks ? 'Y' or 'n' : ")
+        confirm = input("\nAre you sure you want to clear all tasks? (Y/N): ")
 
-        if(confirm.lower() == 'y'):
-
-            file = open('TODO.txt','w')
-            file.write("")
-            file.close()
-            print('\nAll Tasks Cleared Successfully . . . . .')
-        
-        elif(confirm.lower() == 'n'):
-
-            print("\nClearing All Tasks Process Canceled . . . . .")
-        
+        if confirm.lower() == 'y':
+            with open('TODO.txt', 'w') as file:
+                file.write("")
+            print('\nAll tasks cleared successfully. A fresh start!')
+        elif confirm.lower() == 'n':
+            print("\nClearing all tasks process canceled. Let's keep going!")
         else:
+            print("\nError - Invalid Input: Enter 'Y' for Yes or 'N' for No.")
 
-            print("\nError - Invalid Input : Enter 'Y' For Yes OR 'n' For No . . . . .")
-    elif (choice == 4):
+    elif choice == 4:
+        task_number = int(input("\nEnter the task number you want to edit: "))
 
-        print("\nEdit Task")
+        if 1 <= task_number <= len(all_tasks):
+            new_task_description = input("\nEnter the new task description: ")
+            all_tasks[task_number - 1] = new_task_description
 
-        task_number = int(input("\nEnter Task Number You Want To Edit : "))
+            with open("TODO.txt", "w") as file:
+                file.writelines(all_tasks)
 
-        if(task_number > len(all_tasks) or task_number <= 0):
-            print("\nError : Task Number Is Not Valid ,  Enter The Number Displayed Before Task . . . . .")
+            print("Task edited successfully. Keep it updated!")
 
         else:
-            new_task_description = input("\nEnter New Task Description : ")
-            all_tasks[task_number-1] = new_task_description
+            print("\nError: Task number is not valid. Please enter the number displayed before the task.")
 
-            file = open("TODO.txt","w")
-            file.writelines(all_tasks)
-            file.close()
-
-
-    elif (choice == 0):
-
-        print("\nProgram Exited . . . . .")
+    elif choice == 0:
+        print("\nExiting the program. Have a productive day!")
         break
 
     else:
-        print("\nError - Invalid Input : Please Check Option And Enter Valind Choice Number")
-
-# github : bhavya416
+        print("\nError - Invalid Input: Please check the options and enter a valid choice number.")
