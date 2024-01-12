@@ -15,7 +15,7 @@ Before running the script, ensure you have the following installed:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/bhavya416/python-todolist-console.git
+   git clone https://github.com/neuqs0035/python-todolist-console.git
    cd python-todolist-console
    ```
 2. **Run Script:**
